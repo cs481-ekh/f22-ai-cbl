@@ -67,8 +67,6 @@ echo ">Running Pylint scan for XXX python package"
 #    done
 
 pylint ./knee_stress_predict/**/*.py \;
-grep "has been rated"
-
-
+#grep "has been rated"
 echo "Pylint Run Complete.  Final Status $status"
 exit $status
