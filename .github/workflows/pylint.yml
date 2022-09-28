@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - 60-create-testsh
   pull_request:
     branches:
       - main
