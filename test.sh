@@ -1,5 +1,5 @@
 #!/bin/bash
-readonly MIN_PASSING_SCORE=4.00
+readonly MIN_PASSING_SCORE=0.00
 readonly ERROR_MSG="Aborting commit. Your commit has a pylint score lower than ${MIN_PASSING_SCORE}"
 echo "Starting a script to run pylint on python files."
 RCFILE=".scripts/.pylintrc"
