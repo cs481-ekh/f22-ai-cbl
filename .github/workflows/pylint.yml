@@ -17,5 +17,5 @@ jobs:
         python-version: ["3.10"]
     steps:
       - uses: actions/checkout@v1
-      - run: ../../test.sh
+      - run: sh test.sh
 
