@@ -41,7 +41,7 @@ PACKAGES="${1:-$EXAMPLE_PACKAGES}"
 
 echo ">Running Pylint scan for XXX python package"
 # **/**/*.py catches every dir such as cmds, util, tests
-pylint ./knee_stress_predict/**/**/*.py \; |
+pylint ./knee_stress_predict/**/*.py \; |
     # Only get the number values
     grep -oE "\-?[0-9]+\.[0-9]+" |
     # Extract the score
