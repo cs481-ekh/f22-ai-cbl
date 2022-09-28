@@ -2,7 +2,7 @@
 readonly MIN_PASSING_SCORE=0.00
 readonly ERROR_MSG="Aborting commit. Your commit has a pylint score lower than ${MIN_PASSING_SCORE}"
 echo "Starting a script to run pylint on python files."
-RCFILE=".scripts/.pylintrc"
+#RCFILE=".scripts/.pylintrc"
 # TODO: Update this before you run the script, or build some logic to define a list of PACKAGES
 EXAMPLE_PACKAGES="knee_stress_predict"
 PACKAGES="${1:-$EXAMPLE_PACKAGES}"
@@ -12,7 +12,8 @@ for package in ${PACKAGES[@]}; do
     echo ">Running Pylint scan for $package python package"
     # Lint all the python files;
     # **/**/*.py catches every dir such as cmds, util, tests
-    pylint --rcfile=${RCFILE} ./${package}/**/**/*.py \; |
+#    pylint --rcfile=${RCFILE} ./${package}/**/**/*.py \; |
+    pylint ./${package}/**/**/*.py \; |
         # Only get the number values
         grep -oE "\-?[0-9]+\.[0-9]+" |
         # Extract the score
