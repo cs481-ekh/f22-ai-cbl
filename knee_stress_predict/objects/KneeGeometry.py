@@ -1,8 +1,8 @@
 from pathlib import Path
-import pandas as pd
 import pyvista as pv
 from knee_stress_predict.config import raw_data_dir
 import re
+
 
 class KneeGeometry(object):
     def __init__(self, path):

@@ -19,14 +19,6 @@ jobs:
       - uses: actions/checkout@v1
       - run: pip install pylint
       - run: sh test.sh
-      - run: |
-          echo  '${{ steps.files.outputs.files_updated }} ${{ steps.files.outputs.files_created }}'
-          OUTPUT = $(pylint ${{ steps.files.outputs.files_updated }} ${{ steps.files.outputs.files_created }}  --exit-zero --jobs=0)
-          SCORE = 0
-          echo "Pylint finished with score: $SCORE"
-          echo 'MESSAGE<<EOF' >> $GITHUB_ENV
-          echo  "$OUTPUT"  >> $GITHUB_ENV
-          echo 'EOF' >> $GITHUB_ENV
 
 
 
