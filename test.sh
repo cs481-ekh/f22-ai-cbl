@@ -4,7 +4,7 @@ readonly ERROR_MSG="Aborting commit. Your commit has a pylint score lower than $
 echo "Starting a script to run pylint on python files.";
 echo ">Running Pylint scan for XXX python package";
 OUTPUT=$(pylint ./knee_stress_predict/**/*.py)
-SCORE=$(sed -n '$s/[^0-9]*\([0-9.]*\).*/\1/p' <<< "$OUTPUT")
+SCORE=$($OUTPUT > sed -n '$s/[^0-9]*\([0-9.]*\).*/\1/p')
 echo $SCORE
 echo "Pylint Run Complete.  Final Status $status"
 exit $status
