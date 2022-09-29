@@ -41,4 +41,4 @@ class KneeGeometry(object):
 if __name__ == '__main__':
     path = Path.joinpath(raw_data_dir, "2022.09.16_Geometries")
     knee = KneeGeometry(path)
-    knee.femur.plot(jupyter_backend="static")
+    knee.pat_cart.plot(jupyter_backend="static")
