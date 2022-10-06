@@ -49,6 +49,7 @@ class KneeGeometry(object):
 if __name__ == '__main__':
     path = Path.joinpath(raw_data_dir, "set_1/2022.09.16_Geometries")
     knee = KneeGeometry(path)
+    knee.femur.plot(style='wireframe', color='tan')
     merged = knee.femur.merge(knee.tibia_cart_med)
     merged.plot(style='wireframe', color='tan')
 
