@@ -1,8 +1,16 @@
 from pathlib import Path
 import pyvista as pv
+from scipy.spatial import KDTree
 from knee_stress_predict.config import raw_data_dir
 import re
+import numpy as np
+from pyvista import examples
 
+def generate_points(subset=0.02):
+    """A helper to make a 3D NumPy array of points (n_points by 3)"""
+    dataset = examples.download_lidar()
+    ids = np.random.randint(low=0, high=dataset.n_points - 1, size=int(dataset.n_points * subset))
+    return dataset.points[ids]
 
 class KneeGeometry(object):
     def __init__(self, path):
@@ -45,3 +53,27 @@ if __name__ == '__main__':
     # merged = merged.merge(knee.tibia_cart_med)
     merged.plot(style='wireframe', color='tan')
     # knee.femur.plot(jupyter_backend="static")
+
+    volume = knee.femur.volume
+
+    surf_femur = knee.femur.extract_surface()
+    surf_tibia_cart = knee.tibia_cart_med.extract_surface()
+    surf_tibia_cart.plot(show_scalar_bar=False)
+
+    _ = knee.tibia_cart_med.compute_implicit_distance(surf_femur, inplace=True)
+    _ = knee.tibia_cart_lat.compute_implicit_distance(surf_femur, inplace=True)
+
+    pl = pv.Plotter()
+    _ = pl.add_mesh(knee.tibia_cart_med, scalars='implicit_distance', cmap='bwr')
+    _ = pl.add_mesh(knee.tibia_cart_lat, scalars='implicit_distance', cmap='bwr')
+    _ = pl.add_mesh(surf_femur, color='w', style='wireframe')
+    pl.show()
+
+
+
+
+    tibia_point_cloud = pv.PolyData(knee.tibia.points)
+    tibia_point_cloud.plot(eye_dome_lighting=True)
+    a = 1
+
+    # Define some helpers - ignore these and use your own data!
