@@ -50,16 +50,10 @@ if __name__ == '__main__':
     path = Path.joinpath(raw_data_dir, "set_1/2022.09.16_Geometries")
     knee = KneeGeometry(path)
     merged = knee.femur.merge(knee.tibia_cart_med)
-    # merged = merged.merge(knee.tibia_cart_med)
     merged.plot(style='wireframe', color='tan')
-    # knee.femur.plot(jupyter_backend="static")
 
-    volume = knee.femur.volume
-
+    # Testing distance extraction
     surf_femur = knee.femur.extract_surface()
-    surf_tibia_cart = knee.tibia_cart_med.extract_surface()
-    surf_tibia_cart.plot(show_scalar_bar=False)
-
     _ = knee.tibia_cart_med.compute_implicit_distance(surf_femur, inplace=True)
     _ = knee.tibia_cart_lat.compute_implicit_distance(surf_femur, inplace=True)
 
@@ -69,11 +63,11 @@ if __name__ == '__main__':
     _ = pl.add_mesh(surf_femur, color='w', style='wireframe')
     pl.show()
 
+    implicit_distance = knee.tibia_cart_med.active_scalars
+    min = min(implicit_distance)
+    max = max(implicit_distance)
+    mean = np.mean(implicit_distance)
+    print(min, max, mean)
 
 
 
-    tibia_point_cloud = pv.PolyData(knee.tibia.points)
-    tibia_point_cloud.plot(eye_dome_lighting=True)
-    a = 1
-
-    # Define some helpers - ignore these and use your own data!
