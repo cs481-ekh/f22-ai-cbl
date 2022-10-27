@@ -1,13 +1,24 @@
 from pathlib import Path
 import pandas as pd
 import pyvista as pv
-import numpy as np
-import seaborn as sns
 import os
-import matplotlib.pyplot as plt
 from knee_stress_predict.config import raw_data_dir, processed_data_dir
 from knee_stress_predict.objects.KneeGeometry import KneeGeometry
 
+def plot_subdivisions_tibia_car(patients_knees, rows, cols):
+    display_args = dict(show_edges=True, color=True)
+    p = pv.Plotter(shape=(rows, cols))
+    i = 0
+    for key, value in patients_knees.items():
+        p.subplot(i // cols, i % cols)
+        p.add_mesh(value.tibia_cart_lat, **display_args)
+        p.add_mesh(value.tibia_cart_med, **display_args)
+        p.add_text(f'{key}', font_size=10,)
+        i = i + 1
+
+    p.link_views()
+    p.view_isometric()
+    return p
 
 def plot_subdivisions(patients_knees,data):
     display_args = dict(show_edges=True, color=True)
@@ -51,3 +62,4 @@ if __name__ == '__main__':
     plotter = plot_subdivisions(patients_knees, data)
 
     plotter.show()
+
