@@ -16,11 +16,11 @@ def plot_subdivisions(patients_knees,data):
     for key, value in patients_knees.items():
         p.subplot(i // 7, i % 7)
 
-        p.add_mesh(value.femur, **display_args)
-        p.add_mesh(value.tibia, **display_args)
-        p.add_mesh(value.patella, **display_args)
-        p.add_mesh(value.fem_cart, **display_args)
-        p.add_mesh(value.pat_cart, **display_args)
+        # p.add_mesh(value.femur, **display_args)
+        # p.add_mesh(value.tibia, **display_args)
+        # p.add_mesh(value.patella, **display_args)
+        # p.add_mesh(value.fem_cart, **display_args)
+        # p.add_mesh(value.pat_cart, **display_args)
         p.add_mesh(value.tibia_cart_lat, **display_args)
         p.add_mesh(value.tibia_cart_med, **display_args)
 
