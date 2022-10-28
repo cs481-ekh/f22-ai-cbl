@@ -1,0 +1,7 @@
+1. To check if the cartilage is defected or not, we can project cartilage onto a plane.
+Here is PyVista function how to do it:
+https://docs.pyvista.org/examples/01-filter/project-plane.html
+
+2. Then we can do two checks:
+- apply the threshold to find the counter and see if there is any contour inside bigger contour
+- draw a circle inside the cartilage and if the size is smaller the threshold diameter - mark it as defected
