@@ -1,7 +1,7 @@
 from pathlib import Path
 from knee_stress_predict.config import raw_data_dir, processed_data_dir
 from knee_stress_predict.objects.KneeGeometry import KneeGeometry
-from knee_stress_predict.objects.Contour import get_img_cnts
+from knee_stress_predict.objects.Contour import get_img_cnts, get_cnt_center, get_cnt_center
 import numpy as np
 import pyvista as pv
 import pandas as pd
@@ -14,17 +14,17 @@ def plot_curv_subdivisions(patients_knees,data):
     for key, value in patients_knees.items():
         p.subplot(i // 7, i % 7)
         # extract the surface and plot it
-        surf_lat = value.tibia_cart_lat.extract_surface()
         surf_med = value.tibia_cart_med.extract_surface()
+        surf_lat = value.tibia_cart_lat.extract_surface()
 
-        curv_lat = surf_lat.curvature()
         curv_med = surf_med.curvature()
+        curv_lat = surf_lat.curvature()
 
         # I decided to look at the absolute value of curvature. Not sure if it is the best way.
         #  Also, the edges of cartilage affect curvature a lot; as a suggestion to overcome this issue
         #  we can use CurvaturesAdjustEdges from vtk: https://kitware.github.io/vtk-examples/site/Python/PolyData/CurvaturesAdjustEdges/
-        mean_curv_lat = np.mean(abs(curv_lat))
         mean_curv_med = np.mean(abs(curv_med))
+        mean_curv_lat = np.mean(abs(curv_lat))
 
         p.add_mesh(surf_lat, scalars=curv_lat)
         p.add_mesh(surf_med, scalars=curv_med)
@@ -158,7 +158,7 @@ def evaluate_cartilage(patients_knees, data):
 
 
 if __name__ == '__main__':
-    path = Path.joinpath(raw_data_dir, "set_2/9993650M00")
+    path = Path.joinpath(raw_data_dir, "set_2/9968924M00")
     knee = KneeGeometry(path)
 
     # extract the surface of cartilage
@@ -198,6 +198,20 @@ if __name__ == '__main__':
 
     cv2.imshow("mask", mask)
     cv2.waitKey(0)
+    dist = cv2.distanceTransform(mask, cv2.DIST_L2, 5)
+
+    radius_inner_circle = int(np.max(dist))
+    origin = get_cnt_center(cnt)
+
+    mask2 = np.zeros_like(img)
+    cv2.circle(mask2, center=origin, radius=radius_inner_circle, color=(255, 255, 255), thickness=2)
+    cv2.drawContours(mask2, cnt, -1, 255, -1)
+    cv2.imshow("mask2", mask2)
+    cv2.waitKey(0)
+
+ #************************************************************************#
+
+    a = 1
 
 
     # patients_knees = {}
