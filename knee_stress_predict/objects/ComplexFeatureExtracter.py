@@ -102,7 +102,10 @@ def add_tib_car_curv(patients_knees, data):
 
     return data
 
-def check_holes(cart_mesh):
+def check_holes_and_rough_edges(cart_mesh):
+
+    isHealthy = True
+    cutt_off = 1.2 # cut off ration  convex hull to contour
     surf = cart_mesh.extract_surface()
 
     # Project surface on the xz plane. We can use this projection
@@ -123,9 +126,19 @@ def check_holes(cart_mesh):
     img = p.screenshot(transparent_background=True, return_img=True)[:, :, 0]
     cntr = get_img_cnts(img=img, theshold=100)
 
-    # There is a hole inside the cartilage. In case of projection we have two contours,
+    # 1. If there is a hole inside the cartilage. In case of projection we have two contours,
     #  one contour inside another contour
-    return len(cntr) == 1
+    isHealthy = len(cntr) == 1
+
+    # 2. If there are rough edges the cartilage is damaged:
+    if isHealthy:
+        cnt = sorted(cntr, key=lambda cnt: cv2.contourArea(cnt), reverse=True)[0]
+        hull_cnt = cv2.convexHull(cnt, False)
+        cnt_area = cv2.contourArea(cnt)
+        hull_cnt_area = cv2.contourArea(hull_cnt)
+        isHealthy = (hull_cnt_area/cnt_area < cutt_off)
+
+    return isHealthy
 
 def evaluate_cartilage(patients_knees, data):
     """
@@ -141,8 +154,8 @@ def evaluate_cartilage(patients_knees, data):
 
     for key, value in patients_knees.items():
 
-        isHealthy_lat = check_holes(value.tibia_cart_lat)
-        isHealthy_med = check_holes(value.tibia_cart_med)
+        isHealthy_lat = check_holes_and_rough_edges(value.tibia_cart_lat)
+        isHealthy_med = check_holes_and_rough_edges(value.tibia_cart_med)
 
         tib_med_ishealthy.append(isHealthy_med)
         tib_lat_ishealthy.append(isHealthy_lat)
@@ -158,77 +171,57 @@ def evaluate_cartilage(patients_knees, data):
 
 
 if __name__ == '__main__':
-    path = Path.joinpath(raw_data_dir, "set_2/9968924M00")
-    knee = KneeGeometry(path)
-
-    # extract the surface of cartilage
-    surf = knee.tibia_cart_med.extract_surface()
-
-    # Project surface on the xz plane. We can use this projection
-    # to see if there are holes in the cartilage or surface is reduced
-    origin = surf.center
-    projected = surf.project_points_to_plane(origin=origin, normal=(0, 1, 0))
-
-    # Save projection of the cartilage for the further analysis
-    p = pv.Plotter(off_screen=True)
-
-    # The code below helps to orient camera correctly and get projection for the further analysis
-    origin_camera = origin.copy()
-    origin_camera[1] -= surf.length * 5
-    p.camera.position = origin_camera
-    p.camera.focal_point = origin
-
-    p.add_mesh(projected, color="white")
-    p.screenshot("screenshot.png")
-    img = p.screenshot(transparent_background=True, return_img=True)[:,:,0]
-    cntr = get_img_cnts(img=img, theshold=100)
-
-    # Get biggest
-    cnt = sorted(cntr, key=lambda cnt: cv2.contourArea(cnt), reverse=True)[0]
-
-
-    # create a mask from your contour
-    # hulls = [cv2.convexHull(cnt, False) for cnt in cntr]
-    # mask = np.zeros_like(img)
-    # cv2.drawContours(mask, hulls, -1, 255, -1)
-
-
-    mask = np.zeros_like(img)
-    cv2.drawContours(mask, [cv2.convexHull(cnt, False)], -1, 255, -1)
-
-    cv2.imshow("mask", mask)
-    cv2.waitKey(0)
-    dist = cv2.distanceTransform(mask, cv2.DIST_L2, 5)
-
-    radius_inner_circle = int(np.max(dist))
-    origin = get_cnt_center(cnt)
-
-    mask2 = np.zeros_like(img)
-    cv2.circle(mask2, center=origin, radius=radius_inner_circle, color=(255, 255, 255), thickness=2)
-    cv2.drawContours(mask2, cnt, -1, 255, -1)
-    cv2.imshow("mask2", mask2)
-    cv2.waitKey(0)
+    # path = Path.joinpath(raw_data_dir, "set_2/9967358M00")
+    # knee = KneeGeometry(path)
+    #
+    # # extract the surface of cartilage
+    # surf = knee.tibia_cart_lat.extract_surface()
+    #
+    # # Project surface on the xz plane. We can use this projection
+    # # to see if there are holes in the cartilage or surface is reduced
+    # origin = surf.center
+    # projected = surf.project_points_to_plane(origin=origin, normal=(0, 1, 0))
+    #
+    # # Save projection of the cartilage for the further analysis
+    # p = pv.Plotter(off_screen=True)
+    #
+    # # The code below helps to orient camera correctly and get projection for the further analysis
+    # origin_camera = origin.copy()
+    # origin_camera[1] -= surf.length * 5
+    # p.camera.position = origin_camera
+    # p.camera.focal_point = origin
+    #
+    # p.add_mesh(projected, color="white")
+    # p.screenshot("screenshot.png")
+    # img = p.screenshot(transparent_background=True, return_img=True)[:,:,0]
+    # cntr = get_img_cnts(img=img, theshold=100)
+    #
+    # # Get biggest
+    # cnt = sorted(cntr, key=lambda cnt: cv2.contourArea(cnt), reverse=True)[0]
+    # hull_cnt = cv2.convexHull(cnt, False)
+    # cnt_area = cv2.contourArea(cnt)
+    # hull_cnt_area = cv2.contourArea(hull_cnt)
+    #
+    # a = 1
+    #
 
  #************************************************************************#
 
-    a = 1
+    patients_knees = {}
+    data_set_name = "set_2"
+    data_dir = Path.joinpath(raw_data_dir, data_set_name)
+    for i, folder_name in enumerate(os.listdir(data_dir)):
+        patient_dir = Path.joinpath(data_dir, folder_name)
+        patient_knee = KneeGeometry(patient_dir)
+        patients_knees[folder_name] = patient_knee
 
+    data_set_name = "set_2"
+    file_path = Path.joinpath(processed_data_dir, data_set_name, "out_cleaned.csv")
+    data = pd.read_csv(file_path)
+    data = evaluate_cartilage(patients_knees, data)
 
-    # patients_knees = {}
-    # data_set_name = "set_2"
-    # data_dir = Path.joinpath(raw_data_dir, data_set_name)
-    # for i, folder_name in enumerate(os.listdir(data_dir)):
-    #     patient_dir = Path.joinpath(data_dir, folder_name)
-    #     patient_knee = KneeGeometry(patient_dir)
-    #     patients_knees[folder_name] = patient_knee
-    #
-    # data_set_name = "set_2"
-    # file_path = Path.joinpath(processed_data_dir, data_set_name, "out_cleaned.csv")
-    # data = pd.read_csv(file_path)
-    # data = evaluate_cartilage(patients_knees, data)
-    #
-    # plotter = plot_damaged_status_subdivisions(patients_knees, data)
-    # plotter.show()
+    plotter = plot_damaged_status_subdivisions(patients_knees, data)
+    plotter.show()
 
 
 
