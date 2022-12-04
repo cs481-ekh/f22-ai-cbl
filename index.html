@@ -1,8 +1,76 @@
 <!DOCTYPE html>
-<html>
-<body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
-</body>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+
+<!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>PiRate | s21-team-blue</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="PiRate" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="PiRate: Standalone Security Software for penetration testing and vulnerability scanning" />
+<meta property="og:description" content="PiRate: Standalone Security Software for penetration testing and vulnerability scanning" />
+<link rel="canonical" href="https://cs481-ekh.github.io/s21-team-blue/" />
+<meta property="og:url" content="https://cs481-ekh.github.io/s21-team-blue/" />
+<meta property="og:site_name" content="s21-team-blue" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="PiRate" />
+<script type="application/ld+json">
+{"description":"PiRate: Standalone Security Software for penetration testing and vulnerability scanning","url":"https://cs481-ekh.github.io/s21-team-blue/","@type":"WebSite","headline":"PiRate","name":"s21-team-blue","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <link rel="stylesheet" href="/s21-team-blue/assets/css/style.css?v=968fdbd62134251765aefff7f8579f2f93e04642">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">s21-team-blue</h1>
+      <h2 class="project-tagline">PiRate: Standalone Security Software for penetration testing and vulnerability scanning</h2>
+      
+        <a href="https://github.com/cs481-ekh/s21-team-blue" class="btn">View on GitHub</a>
+      
+      
+    </section>
+
+    <section class="main-content">
+      <h1 id="pirate">PiRate</h1>
+
+<h2 id="abstract">Abstract:</h2>
+<p>PiRate is a standalone security scanner which emphasizes usability and customizability. Many security scanners exist on the market such as Nessus and OpenVAS. They all have
+one thing in common: they are unusable for most people, and they are not customizable. Pirate attempts to answer these shortcomings by making a security scanner that is
+simple to use and that can be easily extended.</p>
+
+<p>The device works by connecting to a client computer through a direct LAN connection (the client computer must be taken off all other networks). The client accesses the PiRate controller through a webpage served by PiRate. The controller UI allows the client to run a number of security tests, display and evaluate the results, and even create their own custom tests.</p>
+
+<p>Having a directly-connected LAN between the PiRate device and the client allows the PiRate software to safely emulate attack vectors and test security weaknesses of the client device, without exposing either device to an internet-connected network. After a user runs a test or a set of tests, the results will be displayed in a table on the webpage. Users can then go through and delete any test results they don’t want to keep, and save the remaining results to a file.</p>
+
+<p>PiRate can be beneficial for any researcher, engineer, or penetration tester desiring to run a fully-customizable testing framework for a single machine. Users can take advantage of the current testing suite while also having the ability to create and add any test they desire.</p>
+
+<h2 id="members">Members:</h2>
+<ul>
+  <li>Cole Gilmore</li>
+  <li>Max Hanson</li>
+  <li>Casey Lewis</li>
+</ul>
+
+<h2 id="what-we-actually-built">What We Actually Built:</h2>
+<p>PiRate uses a python based controller that will run security tests against a client computer from an externally connected Raspberry Pi. The tests have been structured according to the layout provided to you within our angular website’s test upload page. With that said, the entire website is run using angular and is hosted on a node express server which will gather your IP address, as well as the directories that the tests reside in and any potential results from previous tests. After gathering this information it will get passed back to be viewed on the angular website and will update whenever a new test is added to the tests directory. The results of running tests can be saved to an external log file for later viewing, as well as the program remembering your device or being able to upload old test results.</p>
+
+<p><img src="https://imgur.com/5iyfEWk.png" alt="Imgur" />
+<img src="https://imgur.com/n9W60Aj.png" alt="Imgur" />
+<img src="https://imgur.com/rnxX2nZ.png" alt="Imgur" /></p>
+
+
+      <footer class="site-footer">
+        
+          <span class="site-footer-owner"><a href="https://github.com/cs481-ekh/s21-team-blue">s21-team-blue</a> is maintained by <a href="https://github.com/cs481-ekh">cs481-ekh</a>.</span>
+        
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+      </footer>
+    </section>
+
+    
+  </body>
 </html>
 
