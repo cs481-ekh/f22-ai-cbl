@@ -1,4 +1,1 @@
-Contributors
-Nina
-Harry
-Stephanie
+
