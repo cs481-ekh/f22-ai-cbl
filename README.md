@@ -20,6 +20,7 @@ Most of our time was spent on data cleaning and extracting new features. We were
 
 ### Project Description
   Across the project, we have built three machine-learning models designed to do different tasks. We have a multiple-feature linear regressor model which processes through the entire dataset and works toward generating a model that can predict peak stress in complex features. On top of that, we have built non-linear decision trees regressor model with the help of Scikit Learn. The purpose of creating such a model is to compare and analyze the data from the different mathematical models and to cross-validation to ensure we can select the optimal model for this research. 
+  
   Besides supervised machine learning, we have implemented K-Means Clustering,  an unsupervised machine learning built as the supporting machine to analyze the data and justify the outcome of random forests and linear regressor. We implemented the elbow method to use a statical strategy to select the correct number of clusters. As optimal outcomes, 3 clusters represent low, medium, and peak stress. So this method act as proof of data engineering as well. After implementation, we obtained 3 clusters as recommendations from the method, proving that data engineering is effective. 
 
 
