@@ -15,7 +15,7 @@ We followed the standard Machine Learning approach starting with data cleaning, 
 
 During our research project, we were given three different sets of data to train and test our models. The first dataset had geometry of one knee with pressure/strain for 100 time points. The time points come from the motion of a knee moving from a standing position to a squatting position. The second set of data consisted of 28 knees with 240 time points and the third dataset had 169 knees with 240 time points. 
 
-Most of our time was spent on data cleaning and extracting new features. We were able to extract new features by determining whether or not the cartilage is healthy or unhealthy. We also measured curvature of the cartilage.
+Most of our time was spent on data cleaning and extracting new features. We were able to extract new features by measuring the femur gap distance, labeling cartilage as damaged or healthy, measuring the distance between femur cartilage and tibia bone, and curvature of cartilage.
 
 
 ### Project Description
