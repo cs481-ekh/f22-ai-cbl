@@ -4,6 +4,7 @@ from scipy.spatial import KDTree
 from knee_stress_predict.config import raw_data_dir
 import re
 import numpy as np
+import os
 from pyvista import examples
 
 def generate_points(subset=0.02):
@@ -47,28 +48,19 @@ class KneeGeometry(object):
 
 
 if __name__ == '__main__':
-    path = Path.joinpath(raw_data_dir, "set_1/2022.09.16_Geometries")
-    knee = KneeGeometry(path)
-    knee.femur.plot(style='wireframe', color='tan')
-    merged = knee.femur.merge(knee.tibia_cart_med)
-    merged.plot(style='wireframe', color='tan')
-
-    # Testing distance extraction
-    surf_femur = knee.femur.extract_surface()
-    _ = knee.tibia_cart_med.compute_implicit_distance(surf_femur, inplace=True)
-    _ = knee.tibia_cart_lat.compute_implicit_distance(surf_femur, inplace=True)
-
+    data_set_name = "set_2"
+    data_dir = Path.joinpath(raw_data_dir, data_set_name)
+    # for i, folder_name in enumerate(os.listdir(data_dir)):
+    patient_dir = Path.joinpath(data_dir, "9967358M00")
+    knee = KneeGeometry(patient_dir)
     pl = pv.Plotter()
-    _ = pl.add_mesh(knee.tibia_cart_med, scalars='implicit_distance', cmap='bwr')
-    _ = pl.add_mesh(knee.tibia_cart_lat, scalars='implicit_distance', cmap='bwr')
-    _ = pl.add_mesh(surf_femur, color='w', style='wireframe')
+    _ = pl.add_mesh(knee.tibia_cart_med)
+    _ = pl.add_mesh(knee.tibia_cart_lat)
+    _ = pl.add_mesh(knee.tibia)
+    _ = pl.add_mesh(knee.femur)
+    _ = pl.add_mesh(knee.patella)
+    _ = pl.add_mesh(knee.pat_cart)
     pl.show()
-
-    implicit_distance = knee.tibia_cart_med.active_scalars
-    min = min(implicit_distance)
-    max = max(implicit_distance)
-    mean = np.mean(implicit_distance)
-    print(min, max, mean)
 
 
 
