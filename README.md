@@ -9,7 +9,9 @@
 
 ### Video Overview
 
-https://user-images.githubusercontent.com/68862634/206042422-2ba844f6-a5e1-4198-8c75-b3941e91b556.mp4
+<video src="https://user-images.githubusercontent.com/68862634/206042422-2ba844f6-a5e1-4198-8c75-b3941e91b556.mp4" controls="controls" style="max-width: 730px;">
+</video>
+
 
 
 ### Abstract
