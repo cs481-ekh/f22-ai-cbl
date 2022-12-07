@@ -1,5 +1,3 @@
-![pylint workflow](https://github.com/cs481-ekh/f22-ai-cbl/actions/workflows/pylint.yml/badge.svg)
-
 <!-- Page Wrapper -->
 <div style="background: url(https://bootstrapious.com/i/snippets/sn-bg-image/bg.jpg)" class="page-holder bg-cover">
 
@@ -10,6 +8,7 @@
   </div>
 </div>
 
+![pylint workflow](https://github.com/cs481-ekh/f22-ai-cbl/actions/workflows/pylint.yml/badge.svg)
 
 ### Members:
 - Nina Nikitina
