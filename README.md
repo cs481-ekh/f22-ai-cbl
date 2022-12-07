@@ -6,13 +6,10 @@
   <div class="container py-5">
     <header class="text-center text-white py-5">
       <h1>Knee Stress Prediction</h1>
-      </p>
     </header>
   </div>
 </div>
 
-
-# Knee Stress Prediction
 
 ### Members:
 - Nina Nikitina
